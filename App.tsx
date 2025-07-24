@@ -1,13 +1,16 @@
-import { ScreenContent } from 'components/ScreenContent';
-import { StatusBar } from 'expo-status-bar';
-
-import './global.css';
+import { Text, View } from 'react-native'
+import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import './global.css'
 
 export default function App() {
   return (
-    <>
-      <ScreenContent title="Home" path="App.tsx"></ScreenContent>
-      <StatusBar style="auto" />
-    </>
-  );
+    <SafeAreaView>
+      <View className='bg-blue-500 w-full h-20'>
+        <Text className='text-2xl font-bold'>Welcome to My Expo App</Text>
+      </View>
+      <Text className='text-xl font-bold'>App</Text>
+
+    </SafeAreaView>
+  )
 }
