@@ -1,10 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./App.{js,ts,tsx}', './components/**/*.{js,ts,tsx}'],
+  content: ['./App.{js,jsx}', './components/**/*.{js,jsx}'],
 
   presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        kumbhblue: '#204B72',
+      },
+    },
   },
   plugins: [],
 };
