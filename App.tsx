@@ -8,7 +8,7 @@ export default function App() {
       <View className='bg-blue-500 w-full h-20'>
         <Text className='text-2xl font-bold'>Welcome to My Expo App</Text>
       </View>
-      <Text className='text-xl font-bold'>App</Text>
+      <Text className='text-xl font-bold'>Hello doston</Text>
 
     </SafeAreaView>
   )
