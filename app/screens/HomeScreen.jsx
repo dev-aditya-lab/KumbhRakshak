@@ -1,15 +1,15 @@
-import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image, Text, View } from 'react-native';
+// import { SafeAreaView } from 'react-native-safe-area-context';
+import '../../global.css';
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
-
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-white">
-      <Text className="text-xl font-bold text-blue-600">Welcome to KumbhRakshak</Text>
-      <Button title="Go to Emergency" onPress={() => navigation.navigate('Emergency')} />
-    </SafeAreaView>
+    <View className="bg-white">
+      <View className="h-fit w-full items-center rounded-b-[2rem] bg-kumbhblue/90 py-14 ">
+        <Image className="h-52 w-52" source={require('../../assets/KR_logo.png')} />
+        <Text className="text-4xl font-bold text-white">Kumbh Rakshak</Text>
+        <Text className="text-xl text-white">Safety, Cleanliness and Community Seva</Text>
+      </View>
+    </View>
   );
 }

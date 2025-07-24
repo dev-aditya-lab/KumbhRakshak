@@ -20,8 +20,7 @@ export default function TabNavigator() {
         tabBarActiveTintColor: '#204B72',
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
-      })}
-    >
+      })}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Emergency" component={EmergencyScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
