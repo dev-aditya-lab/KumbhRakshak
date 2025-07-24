@@ -3,7 +3,7 @@
 ## Core Components
 
 ### **View**
-- **Use case**: Container component, similar to `<div>` in web development
+- **Use case**: Container omponent, similar to `<div>` in web development
 - Acts as a wrapper for other components
 - Supports styling, layout, and touch handling
 
