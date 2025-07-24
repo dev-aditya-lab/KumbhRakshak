@@ -1,8 +1,8 @@
 {
-  "name": "my-expo-app",
+  "name": "kumbh-rakshak",
   "version": "1.0.0",
   "scripts": {
-    "android": "expo start --android",
+    "a": "expo start --android",
     "ios": "expo start --ios",
     "start": "expo start",
     "prebuild": "expo prebuild",
