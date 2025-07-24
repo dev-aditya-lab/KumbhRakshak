@@ -8,3 +8,6 @@
     npm install @react-navigation/native-stack
     npm install @react-navigation/bottom-tabs
     ```
+5. style not working fix 
+6. Reduse apk size
+
