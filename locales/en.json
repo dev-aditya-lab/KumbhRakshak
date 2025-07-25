@@ -1,0 +1,28 @@
+{
+  "app": {
+    "title": "Kumbh Rakshak",
+    "subtitle": "Safety, Cleanliness and Community Seva"
+  },
+  "help_buttons": {
+    "emergency": {
+      "title": "Start Live Help Call",
+      "desc": "Talk to an officer for urgent help"
+    },
+    "cleanliness": {
+      "title": "Report Cleanliness Issue", 
+      "desc": "Spotted a dirty area? Report with photo."
+    },
+    "services": {
+      "title": "Find Local Services",
+      "desc": "Nearby food stalls & vendors in one place."
+    },
+    "default": {
+      "title": "Help",
+      "desc": "Need assistance? Click here!"
+    }
+  },
+  "language": {
+    "switch": "हिंदी",
+    "current": "English"
+  }
+}
