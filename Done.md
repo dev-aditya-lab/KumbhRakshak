@@ -10,4 +10,6 @@
     ```
 5. style not working fix 
 6. Reduse apk size
+7. add feature button
+8. add i18n support =>Language change option (english <=> to hingi) add
 
