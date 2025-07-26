@@ -24,5 +24,18 @@
   "language": {
     "switch": "हिंदी",
     "current": "English"
+  },
+  "registration": {
+    "welcome": "Welcome to Kumbh Rakshak!",
+    "subtitle": "Help us serve you better by providing your details",
+    "name_label": "Your Name",
+    "name_placeholder": "Enter your full name",
+    "phone_label": "Phone Number",
+    "phone_placeholder": "Enter your 10-digit phone number",
+    "privacy_text": "Your information is safe with us and will only be used for emergency contact and service tracking.",
+    "submit_button": "Get Started",
+    "required_field": "This field is required",
+    "invalid_phone": "Please enter a valid 10-digit phone number",
+    "registration_success": "Registration completed successfully!"
   }
 }
