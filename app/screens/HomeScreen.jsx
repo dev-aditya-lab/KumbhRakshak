@@ -1,68 +1,113 @@
 import { Image, ScrollView, Text, View, TouchableOpacity } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { useRegistration } from '../../context/RegistrationContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import '../../global.css';
 import HelpBtn from '../../components/HelpBtn';
 import LanguageSwitch from '../../components/LanguageSwitch';
-import { UserStorage } from '../../utils/UserStorage';
-import { useRegistration } from '../../context/RegistrationContext.js';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
-  const { isRegistrationModalOpen } = useRegistration();
+  const { setShowRegistration } = useRegistration();
 
-  // Debug function to reset registration (for testing)
   const resetRegistration = async () => {
-    await UserStorage.clearUserData();
-    alert('Registration cleared! Restart the app to see the registration modal.');
+    try {
+      await AsyncStorage.removeItem('isRegistered');
+      setShowRegistration(true);
+    } catch (error) {
+      console.error('Error resetting registration:', error);
+    }
   };
-  
+
   return (
-    <View className="flex-1 bg-white">
-      <View className="h-fit w-full items-center rounded-b-[2rem] bg-kumbhblue/90 py-14 relative">
-        <LanguageSwitch disabled={isRegistrationModalOpen} />
-        <Image className="h-52 w-52" source={require('../../assets/KR_logo.png')} />
-        <Text className="text-4xl font-bold text-white">{t('app.title')}</Text>
-        <Text className="text-xl text-white">{t('app.subtitle')}</Text>
-        
+    <View className="flex-1 bg-kumbhblue-50">
+      {/* Header Section */}
+      <View className="bg-kumbhblue-600 pt-12 pb-6 px-6">
+        <View className="flex-row justify-between items-start mb-4">
+          <View className="flex-1">
+            <Text className="text-white text-2xl font-bold mb-1">
+              {t('welcome')}
+            </Text>
+            <Text className="text-kumbhblue-100 text-sm">
+              {t('tagline')}
+            </Text>
+          </View>
+          <View className="mt-2">
+            <LanguageSwitch />
+          </View>
+        </View>
+
+        {/* Logo Section */}
+        <View className="items-center mt-4">
+          <Image 
+            source={require('../../assets/KumbhRakshak.png')} 
+            className="w-32 h-32"
+            resizeMode="contain"
+          />
+        </View>
+      </View>
+
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        {/* Emergency Services Section */}
+        <View className="p-6">
+          <Text className="text-xl font-bold text-gray-800 mb-4">
+            {t('emergencyServices')}
+          </Text>
+          <View className="grid grid-cols-2 gap-4">
+            <HelpBtn 
+              className="bg-red-50 border-2 border-red-300 shadow-soft" 
+              translationKey="emergency"
+              iconSize={44}
+            />
+            <HelpBtn 
+              className="bg-blue-50 border-2 border-blue-300 shadow-soft" 
+              translationKey="services"
+              iconSize={44}
+            />
+            <HelpBtn 
+              className="bg-green-50 border-2 border-green-300 shadow-soft" 
+              translationKey="cleanliness"
+              iconSize={44}
+            />
+            <HelpBtn 
+              className="bg-yellow-50 border-2 border-yellow-300 shadow-soft" 
+              translationKey="emergency"
+              iconSize={44}
+            />
+          </View>
+        </View>
+
+        {/* Additional Services Section */}
+        <View className="px-6 pb-6">
+          <Text className="text-xl font-bold text-gray-800 mb-4">
+            {t('additionalServices')}
+          </Text>
+          <View className="grid grid-cols-2 gap-4">
+            <HelpBtn 
+              className="bg-purple-50 border-2 border-purple-300 shadow-soft" 
+              translationKey="default"
+              iconSize={44}
+            />
+            <HelpBtn 
+              className="bg-orange-50 border-2 border-orange-300 shadow-soft" 
+              translationKey="default"
+              iconSize={44}
+            />
+          </View>
+        </View>
+
         {/* Debug Button - Remove in production */}
-        {__DEV__ && (
+        <View className="px-6 pb-8">
           <TouchableOpacity 
             onPress={resetRegistration}
-            className="absolute bottom-2 left-4 bg-red-500/20 px-3 py-1 rounded"
+            className="bg-gray-200 p-3 rounded-lg"
           >
-            <Text className="text-white text-xs">Reset Registration</Text>
+            <Text className="text-gray-700 text-center">
+              Reset Registration (Debug)
+            </Text>
           </TouchableOpacity>
-        )}
-
-
-      </View>
-    <ScrollView className= "px-2">
-    <HelpBtn 
-      className='bg-rose-200 border border-rose-400' 
-      icon="truck-medical" 
-      iconSize={60} 
-      translationKey="emergency"
-    />
-    <HelpBtn 
-      className='bg-blue-200 border border-blue-500' 
-      icon="broom" 
-      iconSize={60} 
-      translationKey="cleanliness"
-    />
-    <HelpBtn 
-      className='bg-pink-200 border border-pink-400' 
-      icon="store" 
-      iconSize={60} 
-      translationKey="services"
-    />
-    <HelpBtn translationKey="default"/>
-    <HelpBtn translationKey="default"/>
-    <HelpBtn translationKey="default"/>
-    <HelpBtn translationKey="default"/>
-    <HelpBtn translationKey="default"/>
-
-    </ScrollView>
+        </View>
+      </ScrollView>
     </View>
   );
 }

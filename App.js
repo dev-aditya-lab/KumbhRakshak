@@ -38,9 +38,9 @@ export default function App() {
   }
 
   return (
-    <RegistrationContext.Provider value={{ isRegistrationModalOpen: showRegistration }}>
+    <RegistrationContext.Provider value={{ isRegistrationModalOpen: showRegistration, setShowRegistration }}>
       <Navigation />
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <RegistrationModal 
         visible={showRegistration}
         onComplete={handleRegistrationComplete}

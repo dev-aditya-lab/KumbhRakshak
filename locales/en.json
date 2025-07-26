@@ -1,4 +1,12 @@
 {
+  "welcome": "Welcome to Kumbh Rakshak",
+  "tagline": "Safety, Cleanliness and Community Seva",
+  "emergencyServices": "Emergency Services",
+  "additionalServices": "Additional Services",
+  "police": "Police Help",
+  "fire": "Fire Emergency",
+  "ambulance": "Medical Emergency",
+  "emergency": "General Emergency",
   "app": {
     "title": "Kumbh Rakshak",
     "subtitle": "Safety, Cleanliness and Community Seva"
