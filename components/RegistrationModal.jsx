@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserStorage } from '../utils/UserStorage';
 import '../global.css';
 
 export default function RegistrationModal({ visible, onComplete }) {
@@ -71,18 +71,16 @@ export default function RegistrationModal({ visible, onComplete }) {
     setIsSubmitting(true);
     
     try {
-      // Store user data locally
+      // Store user data using UserStorage
       const userData = {
         name: name.trim(),
-        phone: phone.trim(),
-        registeredAt: new Date().toISOString(),
-        isRegistered: true
+        phone: phone.trim()
       };
 
-      await AsyncStorage.setItem('userRegistration', JSON.stringify(userData));
+      await UserStorage.saveUserData(userData);
       
       // TODO: Send to server when backend is ready
-      // await sendToServer(userData);
+      // await UserStorage.sendToServer(userData);
       
       // Simulate API call delay
       setTimeout(() => {

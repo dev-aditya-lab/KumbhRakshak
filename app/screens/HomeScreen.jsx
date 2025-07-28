@@ -1,7 +1,7 @@
 import { Image, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRegistration } from '../../context/RegistrationContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserStorage } from '../../utils/UserStorage';
 import '../../global.css';
 import HelpBtn from '../../components/HelpBtn';
 import LanguageSwitch from '../../components/LanguageSwitch';
@@ -12,8 +12,10 @@ export default function HomeScreen() {
 
   const resetRegistration = async () => {
     try {
-      await AsyncStorage.removeItem('isRegistered');
-      setShowRegistration(true);
+      await UserStorage.clearAllData();
+      // Force app to restart by reloading the page (for testing purposes)
+      // In production, you might want to navigate to user type selection
+      console.log('All user data cleared for testing');
     } catch (error) {
       console.error('Error resetting registration:', error);
     }

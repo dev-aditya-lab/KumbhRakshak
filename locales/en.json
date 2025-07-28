@@ -45,5 +45,38 @@
     "required_field": "This field is required",
     "invalid_phone": "Please enter a valid 10-digit phone number",
     "registration_success": "Registration completed successfully!"
+  },
+  "userType": {
+    "welcome": "Welcome to Kumbh Rakshak",
+    "subtitle": "Please select how you'd like to use the app",
+    "user": {
+      "title": "General User",
+      "description": "Access emergency services, cleanliness reporting, and local services",
+      "benefit": "Quick access to all services"
+    },
+    "volunteer": {
+      "title": "Volunteer",
+      "description": "Help manage and coordinate community services during Kumbh",
+      "requirement": "Login required"
+    },
+    "info": "You can change your role anytime in settings. Volunteers need authorized credentials to access management features."
+  },
+  "volunteer": {
+    "title": "Volunteer Login",
+    "subtitle": "Sign in to access volunteer services",
+    "email": "Email Address",
+    "emailPlaceholder": "Enter your email address",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "login": "Sign In",
+    "loggingIn": "Signing In...",
+    "backToSelection": "Back to User Selection",
+    "error": "Error",
+    "emailRequired": "Email address is required",
+    "invalidEmail": "Please enter a valid email address",
+    "passwordRequired": "Password is required",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "loginFailed": "Login failed. Please check your credentials and try again.",
+    "infoText": "Only authorized volunteers can access volunteer services. Contact your coordinator if you need access."
   }
 }

@@ -1,16 +1,17 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabNavigator from './TabNavigator';
+import VolunteerScreen from '../screens/VolunteerScreen';
 import '../../global.css';
 
 const Stack = createNativeStackNavigator();
 
-export default function RootNavigator() {
+export default function RootNavigator({ userType }) {
   return (
     <Stack.Navigator 
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#204B72',
+          backgroundColor: userType === 'volunteer' ? '#D97706' : '#204B72',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -21,11 +22,19 @@ export default function RootNavigator() {
         animation: 'slide_from_right',
       }}
     >
-      <Stack.Screen 
-        name="Tabs" 
-        component={TabNavigator}
-        options={{ headerShown: false }}
-      />
+      {userType === 'volunteer' ? (
+        <Stack.Screen 
+          name="Volunteer" 
+          component={VolunteerScreen}
+          options={{ headerShown: false }}
+        />
+      ) : (
+        <Stack.Screen 
+          name="Tabs" 
+          component={TabNavigator}
+          options={{ headerShown: false }}
+        />
+      )}
     </Stack.Navigator>
   );
 }
