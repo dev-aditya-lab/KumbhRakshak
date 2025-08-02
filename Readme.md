@@ -45,10 +45,10 @@ Events like the Mahakumbh attract millions of pilgrims, creating massive challen
 - **NativeWind** – Utility-first styling for consistent UI
 - **React Navigation** – Seamless screen transitions
 
-### 🔧 Backend & Realtime DB
-- **Firebase Auth** – Secure authentication
-- **Firestore** – Storing structured data like reports
-- **Realtime Database** – Live status updates and emergency tracking
+### 🔧 Backend & Database
+- **Node.js** – Server-side API development
+- **MongoDB** – Storing structured data like reports, users, and emergency requests
+- **WebSocket/Socket.io** – Live status updates and emergency tracking
 
 ### 🗺️ Location & Media
 - **Google Maps API** – Track & display user/volunteer locations

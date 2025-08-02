@@ -7,11 +7,10 @@ import '../../global.css';
 export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [locationEnabled, setLocationEnabled] = useState(true);
-  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
 
   const settingsGroups = [
     {
-      title: 'General',
+      title: 'General Preferences',
       items: [
         {
           icon: 'bell',
@@ -19,7 +18,7 @@ export default function SettingsScreen() {
           subtitle: 'Receive alerts and updates',
           type: 'toggle',
           value: notificationsEnabled,
-          onToggle: setNotificationsEnabled
+          onToggle: setNotificationsEnabled,
         },
         {
           icon: 'location-dot',
@@ -27,17 +26,16 @@ export default function SettingsScreen() {
           subtitle: 'Allow location access for better service',
           type: 'toggle',
           value: locationEnabled,
-          onToggle: setLocationEnabled
+          onToggle: setLocationEnabled,
         },
         {
-          icon: 'moon',
-          title: 'Dark Mode',
-          subtitle: 'Switch to dark theme',
-          type: 'toggle',
-          value: darkModeEnabled,
-          onToggle: setDarkModeEnabled
-        }
-      ]
+          icon: 'globe',
+          title: 'Language',
+          subtitle: 'Change app language',
+          type: 'navigation',
+          onPress: () => {},
+        },
+      ],
     },
     {
       title: 'Privacy & Security',
@@ -47,23 +45,23 @@ export default function SettingsScreen() {
           title: 'Privacy Policy',
           subtitle: 'Read our privacy policy',
           type: 'navigation',
-          onPress: () => {}
+          onPress: () => {},
         },
         {
           icon: 'file-contract',
           title: 'Terms of Service',
           subtitle: 'View terms and conditions',
           type: 'navigation',
-          onPress: () => {}
+          onPress: () => {},
         },
         {
-          icon: 'key',
+          icon: 'user-shield',
           title: 'Data & Privacy',
           subtitle: 'Manage your data preferences',
           type: 'navigation',
-          onPress: () => {}
-        }
-      ]
+          onPress: () => {},
+        },
+      ],
     },
     {
       title: 'Support',
@@ -73,101 +71,125 @@ export default function SettingsScreen() {
           title: 'Help Center',
           subtitle: 'Get help and support',
           type: 'navigation',
-          onPress: () => {}
+          onPress: () => {},
         },
         {
           icon: 'bug',
           title: 'Report a Bug',
           subtitle: 'Help us improve the app',
           type: 'navigation',
-          onPress: () => {}
+          onPress: () => {},
         },
         {
           icon: 'star',
           title: 'Rate the App',
           subtitle: 'Rate us on the app store',
           type: 'navigation',
-          onPress: () => {}
-        }
-      ]
-    }
+          onPress: () => {},
+        },
+      ],
+    },
   ];
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Status bar background replacement */}
-      <View className="bg-gray-50 h-0" />
-      
-      {/* Header */}
-      <View className="bg-white border-b border-gray-200 px-6 py-4">
-        <Text className="text-3xl font-bold text-gray-800">Settings</Text>
-        <Text className="text-gray-600 mt-1">Customize your app experience</Text>
-      </View>
-
-      <ScrollView className="flex-1">
-        {/* Quick Stats Card */}
-        <View className="mx-6 mt-6 bg-gradient-to-r from-kumbhblue-600 to-kumbhblue-700 rounded-2xl p-6 shadow-strong">
-          <View className="flex-row items-center justify-between">
-            <View>
-              <Text className="text-white text-xl font-bold">App Statistics</Text>
-              <Text className="text-kumbhblue-100 mt-1">Your usage summary</Text>
-            </View>
-            <FontAwesome6 name="chart-simple" size={32} color="white" />
+      {/* Header - Professional redesign with better contrast */}
+      <View 
+        className="bg-blue-600 px-6 py-8"
+        style={{
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.15,
+          shadowRadius: 12,
+          elevation: 8,
+        }}>
+        <View className="flex-row items-center mb-3">
+          <View 
+            className="mr-4 rounded-2xl bg-white/20 p-3"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 8,
+              elevation: 4,
+            }}>
+            <FontAwesome6 name="gear" size={26} color="white" />
           </View>
-          
-          <View className="flex-row justify-between mt-6">
-            <View>
-              <Text className="text-3xl font-bold text-white">7</Text>
-              <Text className="text-kumbhblue-100 text-sm">Days Active</Text>
-            </View>
-            <View>
-              <Text className="text-3xl font-bold text-white">23</Text>
-              <Text className="text-kumbhblue-100 text-sm">Actions Taken</Text>
-            </View>
-            <View>
-              <Text className="text-3xl font-bold text-white">100%</Text>
-              <Text className="text-kumbhblue-100 text-sm">Uptime</Text>
-            </View>
+          <View className="flex-1">
+            <Text className="text-3xl font-black text-white">Settings</Text>
+            <Text className="mt-1 text-lg font-semibold text-white/90">
+              Customize your experience
+            </Text>
           </View>
         </View>
+      </View>
 
+      <ScrollView className="flex-1 px-6 py-6" showsVerticalScrollIndicator={false}>
         {/* Settings Groups */}
         {settingsGroups.map((group, groupIndex) => (
-          <View key={groupIndex} className="mx-6 mt-6">
-            <Text className="text-xl font-bold text-gray-800 mb-4">{group.title}</Text>
-            
-            <View className="bg-white rounded-2xl border border-gray-200 shadow-soft overflow-hidden">
+          <View key={groupIndex} className="mb-8">
+            <View className="mb-4 flex-row items-center">
+              <Text className="text-xl font-black text-gray-900">{group.title}</Text>
+            </View>
+
+            <View 
+              className="rounded-2xl border border-gray-100 bg-white"
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 8,
+                elevation: 4,
+              }}>
               {group.items.map((item, itemIndex) => (
                 <View key={itemIndex}>
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     onPress={item.onPress}
-                    className="p-4"
-                    activeOpacity={item.type === 'toggle' ? 1 : 0.8}
-                  >
+                    className="p-5"
+                    activeOpacity={item.type === 'toggle' ? 1 : 0.7}>
                     <View className="flex-row items-center">
-                      <View className="w-12 h-12 bg-kumbhblue-50 rounded-xl items-center justify-center">
-                        <FontAwesome6 name={item.icon} size={20} color="#204B72" />
+                      <View 
+                        className="mr-4 h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-100 to-blue-200"
+                        style={{
+                          shadowColor: '#000',
+                          shadowOffset: { width: 0, height: 1 },
+                          shadowOpacity: 0.1,
+                          shadowRadius: 3,
+                          elevation: 2,
+                        }}>
+                        <FontAwesome6 name={item.icon} size={20} color="#2563EB" />
                       </View>
-                      
-                      <View className="flex-1 ml-4">
-                        <Text className="text-lg font-semibold text-gray-800">{item.title}</Text>
-                        <Text className="text-gray-600 text-sm mt-1">{item.subtitle}</Text>
+
+                      <View className="flex-1">
+                        <Text className="mb-1 text-lg font-black text-gray-900">{item.title}</Text>
+                        <Text className="text-sm font-semibold text-gray-600">{item.subtitle}</Text>
                       </View>
-                      
+
                       {item.type === 'toggle' ? (
                         <Switch
                           value={item.value}
                           onValueChange={item.onToggle}
-                          trackColor={{ false: '#E5E7EB', true: '#204B72' }}
+                          trackColor={{ false: '#E5E7EB', true: '#2563EB' }}
                           thumbColor={item.value ? '#FFFFFF' : '#FFFFFF'}
+                          style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}
                         />
                       ) : (
-                        <FontAwesome6 name="chevron-right" size={16} color="#9CA3AF" />
+                        <View 
+                          className="rounded-full bg-gray-100 p-2.5"
+                          style={{
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 1 },
+                            shadowOpacity: 0.1,
+                            shadowRadius: 3,
+                            elevation: 2,
+                          }}>
+                          <FontAwesome6 name="chevron-right" size={16} color="#4B5563" />
+                        </View>
                       )}
                     </View>
                   </TouchableOpacity>
                   {itemIndex < group.items.length - 1 && (
-                    <View className="h-px bg-gray-200 ml-16" />
+                    <View className="ml-20 h-px bg-gray-200" />
                   )}
                 </View>
               ))}
@@ -175,29 +197,127 @@ export default function SettingsScreen() {
           </View>
         ))}
 
-        {/* About Section */}
-        <View className="mx-6 mt-6 mb-8">
-          <Text className="text-xl font-bold text-gray-800 mb-4">About</Text>
-          
-          <View className="bg-white rounded-2xl p-6 border border-gray-200 shadow-soft">
-            <View className="items-center">
-              <View className="w-16 h-16 bg-kumbhblue-600 rounded-2xl items-center justify-center mb-4">
-                <FontAwesome6 name="shield-halved" size={28} color="white" />
+        {/* App Information Footer - Redesigned */}
+        <View className="mb-8 mt-6">
+          {/* Main App Info Card */}
+          <View 
+            className="rounded-2xl bg-kumbhblue-300/50 border border-gray-100"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.1,
+              shadowRadius: 12,
+              elevation: 6,
+            }}>
+            
+            {/* Orange Gradient Header */}
+            <View 
+              className="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-6 rounded-t-2xl"
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 8,
+                elevation: 4,
+              }}>
+              <View className="items-center">
+                <View 
+                  className="mb-3 h-16 w-16 items-center justify-center rounded-full bg-white/20"
+                  style={{
+                    shadowColor: 'red',
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.15,
+                    shadowRadius: 6,
+                    elevation: 4,
+                  }}>
+                  <FontAwesome6 name="shield-heart" size={24} color="red" />
+                </View>
+                <Text className="text-2xl font-black text-white tracking-wide">KumbhRakshak</Text>
+                <Text className="mt-1 text-center text-sm font-semibold text-white/90 px-4">
+                  Smart Health & Safety for Mahakumbh 2028
+                </Text>
               </View>
-              
-              <Text className="text-2xl font-bold text-gray-800">Kumbh Rakshak</Text>
-              <Text className="text-gray-600 text-center mt-2 leading-relaxed">
-                Safety, Cleanliness and Community Seva
-              </Text>
-              
-              <View className="bg-gray-100 px-4 py-2 rounded-full mt-4">
-                <Text className="text-gray-700 font-medium">Version 1.0.0</Text>
-              </View>
-              
-              <Text className="text-gray-500 text-sm text-center mt-4">
-                Built with ❤️ for the Kumbh Mela community
-              </Text>
             </View>
+
+            {/* App Details Section */}
+            <View className="px-6 py-5">
+              <View className="flex-row items-center justify-between mb-4">
+                <View className="flex-row items-center">
+                  <FontAwesome6 name="mobile-screen" size={18} color="#F97316" />
+                  <Text className="ml-3 text-base font-bold text-gray-900">App Version</Text>
+                </View>
+                <View className="bg-orange-100 px-3 py-1.5 rounded-full">
+                  <Text className="text-sm font-bold text-orange-600">v1.0.0</Text>
+                </View>
+              </View>
+
+              <View className="flex-row items-center justify-between mb-4">
+                <View className="flex-row items-center">
+                  <FontAwesome6 name="calendar-days" size={18} color="#F97316" />
+                  <Text className="ml-3 text-base font-bold text-gray-900">Release Date</Text>
+                </View>
+                <Text className="text-sm font-semibold text-gray-600">{new Date().toLocaleDateString('en-US', { month: 'long' })} {new Date().getFullYear()}</Text>
+              </View>
+
+              <View className="flex-row items-center justify-between">
+                <View className="flex-row items-center">
+                  <FontAwesome6 name="code" size={18} color="#F97316" />
+                  <Text className="ml-3 text-base font-bold text-gray-900">Build</Text>
+                </View>
+                <Text className="text-sm font-semibold text-gray-600">Production</Text>
+              </View>
+            </View>
+
+            {/* Divider */}
+            <View className="mx-6 h-px bg-gray-200" />
+
+            {/* Copyright & Legal Section */}
+            <View className="px-6 py-5">
+              <View className="items-center">
+                <Text className="text-sm font-bold text-gray-900 mb-2">
+                  KumbhRakshak © 2025  Ujjain Mahakumbh Hackathon Team Ender Devs
+                </Text>
+                <Text className="text-xs text-gray-600 text-center leading-5 mb-3">
+                  All rights reserved. This application is licensed under proprietary terms.
+                </Text>
+                
+                {/* Developer Info */}
+                <View className="bg-gray-50 rounded-xl px-4 py-3 w-full">
+                  <View className="flex-row items-center justify-center mb-2">
+                    <FontAwesome6 name="user-graduate" size={16} color="#6B7280" />
+                    <Text className="ml-2 text-sm font-bold text-gray-700">Developed by</Text>
+                  </View>
+                  <Text className="text-center text-sm font-semibold text-gray-900">
+                    Team Ender Devs
+                  </Text>
+                  <Text className="text-center text-xs text-gray-600 mt-1">
+                    For Ujjain Mahakumbh Hackathon 2025
+                  </Text>
+                </View>
+
+                {/* Legal Links */}
+                <View className="flex-row items-center justify-center mt-4 space-x-6">
+                  <TouchableOpacity onPress={() => {}}>
+                    <Text className="text-xs font-semibold text-orange-600">Privacy Policy | </Text>
+                  </TouchableOpacity>
+                  <View className="w-px h-3 bg-gray-300" />
+                  <TouchableOpacity onPress={() => {}}>
+                    <Text className="text-xs font-semibold text-orange-600">Terms of Use | </Text>
+                  </TouchableOpacity>
+                  <View className="w-px h-3 bg-gray-300" />
+                  <TouchableOpacity onPress={() => {}}>
+                    <Text className="text-xs font-semibold text-orange-600">Licenses</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          {/* Additional Footer Text */}
+          <View className="mt-4 items-center">
+            <Text className="text-xs text-gray-500 text-center leading-4">
+              Made with ❤️ for the safety and well-being of all Kumbh Mela pilgrims
+            </Text>
           </View>
         </View>
       </ScrollView>

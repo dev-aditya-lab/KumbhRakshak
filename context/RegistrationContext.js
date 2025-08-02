@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 
 const RegistrationContext = createContext({
-  isRegistrationModalOpen: false
+  isRegistrationModalOpen: false,
 });
 
 export { RegistrationContext };

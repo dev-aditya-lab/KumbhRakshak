@@ -9,56 +9,38 @@ export default function LanguageSwitch({ disabled = false }) {
 
   const toggleLanguage = () => {
     if (disabled) return; // Don't change language when disabled
-    
+
     const currentLang = i18n.language;
     const newLang = currentLang === 'en' ? 'hi' : 'en';
     i18n.changeLanguage(newLang);
   };
 
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       onPress={toggleLanguage}
       disabled={disabled}
-      className={`absolute top-14 right-6 rounded-2xl overflow-hidden ${
-        disabled 
-          ? 'bg-gray-500/30' 
-          : 'bg-white/20 backdrop-blur-sm'
+      className={`overflow-hidden rounded-xl ${
+        disabled ? 'bg-gray-500/30' : 'border border-white/30 bg-white/90 backdrop-blur-sm'
       }`}
-      activeOpacity={0.8}
-    >
-      <View className={`px-4 py-3 flex-row items-center border ${
-        disabled 
-          ? 'border-gray-400/30' 
-          : 'border-white/30'
-      }`}>
-        <View className={`p-2 rounded-full mr-3 ${
-          disabled 
-            ? 'bg-gray-400/30' 
-            : 'bg-white/20'
-        }`}>
-          <FontAwesome6 
-            name="language" 
-            size={18} 
-            color={disabled ? '#9CA3AF' : 'white'} 
-          />
+      activeOpacity={0.8}>
+      <View className={`flex-row items-center px-4 py-2 ${disabled ? 'border-gray-400/30' : ''}`}>
+        <View
+          className={`mr-3 rounded-full p-2 ${disabled ? 'bg-gray-400/30' : 'bg-kumbhblue-600'}`}>
+          <FontAwesome6 name="language" size={16} color={disabled ? '#9CA3AF' : 'white'} />
         </View>
-        
-        <View>
-          <Text className={`font-bold text-sm ${
-            disabled ? 'text-gray-400' : 'text-white'
-          }`}>
+
+        <View className="flex-1">
+          <Text className={`text-sm font-bold ${disabled ? 'text-gray-400' : 'text-gray-800'}`}>
             {t('language.switch')}
           </Text>
-          <Text className={`text-xs ${
-            disabled ? 'text-gray-500' : 'text-white/80'
-          }`}>
+          <Text className={`text-xs font-medium ${disabled ? 'text-gray-500' : 'text-gray-600'}`}>
             {t('language.current')}
           </Text>
         </View>
-        
+
         {!disabled && (
           <View className="ml-2">
-            <FontAwesome6 name="chevron-down" size={12} color="white" />
+            <FontAwesome6 name="chevron-down" size={12} color="#374151" />
           </View>
         )}
       </View>

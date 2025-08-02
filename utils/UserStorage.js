@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { apiService } from '../services/ApiService';
 
 const USER_STORAGE_KEY = 'userRegistration';
 const USER_TYPE_KEY = 'userType';
@@ -40,7 +41,7 @@ export const UserStorage = {
       const dataToSave = {
         ...userData,
         isRegistered: true,
-        registrationDate: new Date().toISOString()
+        registrationDate: new Date().toISOString(),
       };
       await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(dataToSave));
       return true;
@@ -88,7 +89,7 @@ export const UserStorage = {
       const loginData = {
         ...volunteerData,
         isLoggedIn: true,
-        loginTime: new Date().toISOString()
+        loginTime: new Date().toISOString(),
       };
       await AsyncStorage.setItem(VOLUNTEER_LOGIN_KEY, JSON.stringify(loginData));
       return true;
@@ -146,17 +147,25 @@ export const UserStorage = {
     }
   },
 
-  // Send user data to server (placeholder for future implementation)
+  // Send user data to server using Node.js + MongoDB backend
   async sendToServer(userData) {
-    // TODO: Implement server API call
-    console.log('Sending user data to server:', userData);
-    
-    // Placeholder for actual API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log('User data sent to server successfully');
-        resolve({ success: true });
-      }, 1000);
-    });
-  }
+    try {
+      console.log('Sending user data to server:', userData);
+
+      // Call our Node.js API to register user
+      const response = await apiService.registerUser(userData);
+
+      console.log('User data sent to server successfully:', response);
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Failed to send user data to server:', error);
+
+      // For development, we'll still allow offline storage
+      return {
+        success: false,
+        error: error.message,
+        offlineMode: true,
+      };
+    }
+  },
 };

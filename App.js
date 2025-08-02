@@ -24,7 +24,7 @@ export default function App() {
     try {
       const isRegistered = await UserStorage.isUserRegistered();
       const savedUserType = await UserStorage.getUserType();
-      
+
       if (!savedUserType) {
         // First time user - show user type selection
         setShowUserTypeSelection(true);
@@ -99,23 +99,18 @@ export default function App() {
   }
 
   return (
-    <RegistrationContext.Provider value={{ 
-      isRegistrationModalOpen: showRegistration, 
-      setShowRegistration,
-      userType 
-    }}>
+    <RegistrationContext.Provider
+      value={{
+        isRegistrationModalOpen: showRegistration,
+        setShowRegistration,
+        userType,
+      }}>
       <Navigation userType={userType} />
       <StatusBar style="light" />
-      
-      <UserTypeModal
-        visible={showUserTypeSelection}
-        onSelectUserType={handleUserTypeSelection}
-      />
-      
-      <RegistrationModal 
-        visible={showRegistration}
-        onComplete={handleRegistrationComplete}
-      />
+
+      <UserTypeModal visible={showUserTypeSelection} onSelectUserType={handleUserTypeSelection} />
+
+      <RegistrationModal visible={showRegistration} onComplete={handleRegistrationComplete} />
 
       <VolunteerLoginModal
         visible={showVolunteerLogin}

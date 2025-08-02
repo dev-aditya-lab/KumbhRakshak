@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Animated
+  Animated,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
@@ -69,72 +69,80 @@ export default function RegistrationModal({ visible, onComplete }) {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    
+
     try {
       // Store user data using UserStorage
       const userData = {
         name: name.trim(),
-        phone: phone.trim()
+        phone: phone.trim(),
+        userType: 'user',
+        registrationDate: new Date().toISOString(),
       };
 
+      // Save locally first
       await UserStorage.saveUserData(userData);
-      
-      // TODO: Send to server when backend is ready
-      // await UserStorage.sendToServer(userData);
-      
-      // Simulate API call delay
-      setTimeout(() => {
-        setIsSubmitting(false);
+
+      // Try to send to server (Node.js + MongoDB backend)
+      const serverResponse = await UserStorage.sendToServer(userData);
+
+      setIsSubmitting(false);
+
+      if (serverResponse.success) {
         Alert.alert(
           '🎉 ' + t('registration.registration_success'),
-          '',
-          [{ text: 'OK', onPress: onComplete }]
+          t('registration.server_sync_success'),
+          [{ text: 'OK', onPress: onComplete }],
         );
-      }, 1500);
-      
-    } catch (_error) {
+      } else if (serverResponse.offlineMode) {
+        Alert.alert(
+          '🎉 ' + t('registration.registration_success'),
+          t('registration.offline_mode'),
+          [{ text: 'OK', onPress: onComplete }],
+        );
+      } else {
+        Alert.alert(
+          '⚠️ ' + t('registration.partial_success'),
+          t('registration.server_sync_failed'),
+          [{ text: 'OK', onPress: onComplete }],
+        );
+      }
+    } catch (error) {
       setIsSubmitting(false);
-      Alert.alert('Error', 'Failed to save registration. Please try again.');
+      console.error('Registration error:', error);
+      Alert.alert(t('registration.error'), t('registration.registration_failed'));
     }
   };
 
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={visible}
-    >
+    <Modal animationType="fade" transparent={true} visible={visible}>
       <View className="flex-1 bg-black/60">
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          className="flex-1 justify-center px-4"
-        >
-          <Animated.View 
+          className="flex-1 justify-center px-4">
+          <Animated.View
             style={{ opacity: fadeAnim }}
-            className="bg-white rounded-3xl overflow-hidden shadow-strong max-h-[85%]"
-          >
+            className="max-h-[85%] overflow-hidden rounded-3xl bg-gray-50">
             {/* Simplified Header */}
-            <View className="bg-kumbhblue-600 px-6 py-6 relative">
+            <View className="relative bg-kumbhblue-600 px-6 py-6">
               {/* Language Toggle Button */}
-              <TouchableOpacity 
+              <TouchableOpacity
                 onPress={toggleLanguage}
-                className="absolute top-4 right-4 bg-white/20 rounded-full px-3 py-2 flex-row items-center"
-                activeOpacity={0.8}
-              >
+                className="absolute right-4 top-4 flex-row items-center rounded-full bg-white/20 px-3 py-2"
+                activeOpacity={0.8}>
                 <FontAwesome6 name="language" size={16} color="white" />
-                <Text className="text-white text-sm font-medium ml-2">
+                <Text className="ml-2 text-sm font-medium text-white">
                   {i18n.language === 'en' ? 'हिंदी' : 'English'}
                 </Text>
               </TouchableOpacity>
 
-              <View className="items-center mt-4">
-                <View className="w-16 h-16 bg-white/20 rounded-full items-center justify-center mb-4">
+              <View className="mt-4 items-center">
+                <View className="mb-4 h-16 w-16 items-center justify-center rounded-full bg-white/20">
                   <FontAwesome6 name="user-plus" size={28} color="white" />
                 </View>
-                <Text className="text-2xl font-bold text-white text-center">
+                <Text className="text-center text-2xl font-bold text-white">
                   {t('registration.welcome')}
                 </Text>
-                <Text className="text-white/90 text-center mt-2 leading-5">
+                <Text className="mt-2 text-center leading-5 text-white/90">
                   {t('registration.subtitle')}
                 </Text>
               </View>
@@ -144,10 +152,11 @@ export default function RegistrationModal({ visible, onComplete }) {
               <View className="p-6">
                 {/* Name Input */}
                 <View className="mb-5">
-                  <Text className="text-gray-800 font-semibold mb-3 text-base">
+                  <Text className="mb-3 text-base font-semibold text-gray-800">
                     {t('registration.name_label')} *
                   </Text>
-                  <View className={`border-2 rounded-xl px-4 py-4 ${nameError ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'}`}>
+                  <View
+                    className={`rounded-xl border-2 px-4 py-4 ${nameError ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-gray-50'}`}>
                     <TextInput
                       value={name}
                       onChangeText={(text) => {
@@ -156,24 +165,25 @@ export default function RegistrationModal({ visible, onComplete }) {
                       }}
                       placeholder={t('registration.name_placeholder')}
                       placeholderTextColor="#9CA3AF"
-                      className="text-gray-900 text-base"
+                      className="text-base text-gray-900"
                       autoCapitalize="words"
                     />
                   </View>
                   {nameError ? (
-                    <View className="flex-row items-center mt-2">
+                    <View className="mt-2 flex-row items-center">
                       <FontAwesome6 name="triangle-exclamation" size={14} color="#EF4444" />
-                      <Text className="text-red-600 text-sm ml-2 font-medium">{nameError}</Text>
+                      <Text className="ml-2 text-sm font-medium text-red-600">{nameError}</Text>
                     </View>
                   ) : null}
                 </View>
 
                 {/* Phone Input */}
                 <View className="mb-5">
-                  <Text className="text-gray-800 font-semibold mb-3 text-base">
+                  <Text className="mb-3 text-base font-semibold text-gray-800">
                     {t('registration.phone_label')} *
                   </Text>
-                  <View className={`border-2 rounded-xl px-4 py-4 ${phoneError ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'}`}>
+                  <View
+                    className={`rounded-xl border-2 px-4 py-4 ${phoneError ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-gray-50'}`}>
                     <TextInput
                       value={phone}
                       onChangeText={(text) => {
@@ -184,26 +194,26 @@ export default function RegistrationModal({ visible, onComplete }) {
                       }}
                       placeholder={t('registration.phone_placeholder')}
                       placeholderTextColor="#9CA3AF"
-                      className="text-gray-900 text-base"
+                      className="text-base text-gray-900"
                       keyboardType="numeric"
                       maxLength={10}
                     />
                   </View>
                   {phoneError ? (
-                    <View className="flex-row items-center mt-2">
+                    <View className="mt-2 flex-row items-center">
                       <FontAwesome6 name="triangle-exclamation" size={14} color="#EF4444" />
-                      <Text className="text-red-600 text-sm ml-2 font-medium">{phoneError}</Text>
+                      <Text className="ml-2 text-sm font-medium text-red-600">{phoneError}</Text>
                     </View>
                   ) : null}
                 </View>
 
                 {/* Privacy Notice */}
-                <View className="bg-blue-50 rounded-xl p-4 mb-6 border border-blue-200">
+                <View className="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-4">
                   <View className="flex-row items-start">
-                    <View className="w-6 h-6 bg-blue-500/20 rounded-full items-center justify-center mr-3 mt-0.5">
+                    <View className="mr-3 mt-0.5 h-6 w-6 items-center justify-center rounded-full bg-blue-500/20">
                       <FontAwesome6 name="shield-halved" size={12} color="#3B82F6" />
                     </View>
-                    <Text className="text-gray-800 text-sm leading-5 flex-1 font-medium">
+                    <Text className="flex-1 text-sm font-medium leading-5 text-gray-800">
                       {t('registration.privacy_text')}
                     </Text>
                   </View>
@@ -213,19 +223,18 @@ export default function RegistrationModal({ visible, onComplete }) {
                 <TouchableOpacity
                   onPress={handleSubmit}
                   disabled={isSubmitting}
-                  className={`rounded-xl py-4 px-6 items-center shadow-medium ${
+                  className={`items-center rounded-xl px-6 py-4 ${
                     isSubmitting ? 'bg-gray-400' : 'bg-kumbhblue-600'
-                  }`}
-                >
+                  }`}>
                   {isSubmitting ? (
                     <View className="flex-row items-center">
                       <FontAwesome6 name="spinner" size={16} color="white" />
-                      <Text className="text-white font-bold text-base ml-3">Processing...</Text>
+                      <Text className="ml-3 text-base font-bold text-white">Processing...</Text>
                     </View>
                   ) : (
                     <View className="flex-row items-center">
                       <FontAwesome6 name="rocket" size={16} color="white" />
-                      <Text className="text-white font-bold text-base ml-3">
+                      <Text className="ml-3 text-base font-bold text-white">
                         {t('registration.submit_button')}
                       </Text>
                     </View>

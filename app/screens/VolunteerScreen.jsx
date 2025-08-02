@@ -1,32 +1,50 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { UserStorage } from '../../utils/UserStorage';
 
 export default function VolunteerScreen() {
-  const { t } = useTranslation();
-
   const handleLogout = async () => {
+    Alert.alert('Logout', 'Are you sure you want to logout?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Logout',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await UserStorage.logoutVolunteer();
+            // The app will automatically redirect to user type selection
+            console.log('Volunteer logged out');
+          } catch (error) {
+            console.error('Error logging out:', error);
+          }
+        },
+      },
+    ]);
+  };
+
+  const clearAllUserData = async () => {
     Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
+      'Clear All Data',
+      'This will clear ALL user data including:\n• User registration\n• Volunteer login\n• App preferences\n• Stored settings\n\nAre you sure?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Logout', 
+        {
+          text: 'Clear All',
           style: 'destructive',
           onPress: async () => {
             try {
+              await UserStorage.clearAllData();
               await UserStorage.logoutVolunteer();
-              // The app will automatically redirect to user type selection
-              console.log('Volunteer logged out');
+              console.log('All data cleared - returning to user type selection');
+              Alert.alert('Success', 'All data cleared! Returning to login screen.');
             } catch (error) {
-              console.error('Error logging out:', error);
+              console.error('Error clearing all data:', error);
+              Alert.alert('Error', 'Failed to clear data');
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     );
   };
 
@@ -37,7 +55,7 @@ export default function VolunteerScreen() {
       description: 'View and respond to emergency calls from users',
       icon: 'ambulance',
       color: '#DC2626',
-      bgColor: '#FEE2E2'
+      bgColor: '#FEE2E2',
     },
     {
       id: 'cleanliness-reports',
@@ -45,281 +63,311 @@ export default function VolunteerScreen() {
       description: 'Review and assign cleanliness issues to teams',
       icon: 'broom',
       color: '#059669',
-      bgColor: '#D1FAE5'
+      bgColor: '#D1FAE5',
     },
     {
       id: 'coordination',
       title: 'Team Coordination',
       description: 'Coordinate with other volunteers and staff',
       icon: 'users',
-      color: '#2563EB',
-      bgColor: '#DBEAFE'
+      color: '#7C3AED',
+      bgColor: '#EDE9FE',
     },
     {
       id: 'crowd-management',
       title: 'Crowd Management',
       description: 'Monitor crowd density and manage flow',
       icon: 'people-group',
-      color: '#7C2D12',
-      bgColor: '#FED7AA'
+      color: '#EA580C',
+      bgColor: '#FED7AA',
     },
     {
       id: 'resource-tracking',
       title: 'Resource Tracking',
-      description: 'Track medical supplies and equipment',
-      icon: 'boxes-stacked',
-      color: '#7C3AED',
-      bgColor: '#EDE9FE'
+      description: 'Track medical supplies and resources',
+      icon: 'truck-medical',
+      color: '#0891B2',
+      bgColor: '#CFFAFE',
     },
     {
-      id: 'reports',
+      id: 'generate-reports',
       title: 'Generate Reports',
-      description: 'Create daily activity and incident reports',
-      icon: 'chart-line',
-      color: '#EA580C',
-      bgColor: '#FED7AA'
-    }
+      description: 'Create daily activity and status reports',
+      icon: 'file-lines',
+      color: '#9333EA',
+      bgColor: '#F3E8FF',
+    },
   ];
 
-  const handleFeaturePress = (featureId) => {
-    Alert.alert(
-      'Feature Coming Soon',
-      `${featureId} functionality will be available in the next update.`,
-      [{ text: 'OK' }]
-    );
-  };
+  const recentActivities = [
+    {
+      id: 1,
+      title: 'Emergency call resolved',
+      time: '2 min ago',
+      icon: 'circle-check',
+      color: '#10B981',
+    },
+    {
+      id: 2,
+      title: 'Cleanliness report assigned',
+      time: '15 min ago',
+      icon: 'clipboard-check',
+      color: '#3B82F6',
+    },
+    {
+      id: 3,
+      title: 'Team coordination meeting',
+      time: '1 hour ago',
+      icon: 'users',
+      color: '#8B5CF6',
+    },
+  ];
+
+  const quickStats = [
+    { label: 'Active Requests', value: '12', color: '#DC2626' },
+    { label: 'Tasks Completed', value: '8', color: '#059669' },
+    { label: 'Team Members', value: '5', color: '#7C3AED' },
+  ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#F8FAFC' }}>
-      {/* Header */}
-      <View style={{ 
-        backgroundColor: '#D97706', 
-        paddingTop: 48, 
-        paddingBottom: 24, 
-        paddingHorizontal: 24 
-      }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <View style={{ flex: 1 }}>
-            <Text style={{ color: 'white', fontSize: 24, fontWeight: 'bold', marginBottom: 4 }}>
-              Volunteer Dashboard
+    <View className="flex-1 bg-gray-50">
+      {/* Header - Professional redesign with better contrast */}
+      <View 
+        className="bg-orange-600 px-6 pb-8 pt-12"
+        style={{
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.15,
+          shadowRadius: 12,
+          elevation: 8,
+        }}>
+        <View className="flex-row items-center justify-between">
+          <View>
+            <Text className="text-3xl font-black text-white">
+              Volunteer Portal
             </Text>
-            <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16 }}>
-              Welcome back, Volunteer!
+            <Text className="mt-2 text-lg font-semibold text-white/90">
+              Ready to serve at Mahakumbh 2028
             </Text>
           </View>
-          
           <TouchableOpacity
             onPress={handleLogout}
+            className="flex-row items-center rounded-full border border-white/30 bg-white/20 px-5 py-3"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.2)',
-              borderRadius: 20,
-              paddingHorizontal: 12,
-              paddingVertical: 8,
-              flexDirection: 'row',
-              alignItems: 'center'
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 6,
+              elevation: 4,
             }}
-            activeOpacity={0.8}
-          >
-            <FontAwesome6 name="sign-out-alt" size={16} color="white" />
-            <Text style={{ color: 'white', marginLeft: 8, fontWeight: '500' }}>
-              Logout
-            </Text>
+            activeOpacity={0.7}>
+            <FontAwesome6 name="sign-out-alt" size={18} color="white" />
+            <Text className="ml-3 font-bold text-white">Logout</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <ScrollView 
-        style={{ flex: 1 }}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ padding: 24 }}
-      >
+      <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         {/* Quick Stats */}
-        <View style={{ 
-          flexDirection: 'row', 
-          marginBottom: 24,
-          backgroundColor: 'white',
-          borderRadius: 16,
-          padding: 20,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 8,
-          elevation: 3
-        }}>
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#DC2626' }}>12</Text>
-            <Text style={{ fontSize: 12, color: '#6B7280', textAlign: 'center' }}>Active{'\n'}Requests</Text>
+        <View className="px-6 py-6">
+          <View className="mb-5 flex-row items-center">
+            <View 
+              className="mr-3 rounded-full bg-gray-600 p-2.5"
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.15,
+                shadowRadius: 4,
+                elevation: 3,
+              }}>
+              <FontAwesome6 name="chart-line" size={16} color="white" />
+            </View>
+            <Text className="text-xl font-extrabold text-gray-900">Quick Stats</Text>
           </View>
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#059669' }}>8</Text>
-            <Text style={{ fontSize: 12, color: '#6B7280', textAlign: 'center' }}>Tasks{'\n'}Completed</Text>
-          </View>
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#2563EB' }}>5</Text>
-            <Text style={{ fontSize: 12, color: '#6B7280', textAlign: 'center' }}>Team{'\n'}Members</Text>
+          <View className="flex-row justify-between">
+            {quickStats.map((stat, index) => (
+              <View
+                key={index}
+                className="mx-1 flex-1 rounded-2xl bg-white border border-gray-200 p-5"
+                style={{ 
+                  borderTopWidth: 4, 
+                  borderTopColor: stat.color,
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 8,
+                  elevation: 4,
+                }}>
+                <Text className="text-3xl font-extrabold" style={{ color: stat.color }}>
+                  {stat.value}
+                </Text>
+                <Text className="mt-2 text-sm font-bold text-gray-700">{stat.label}</Text>
+              </View>
+            ))}
           </View>
         </View>
 
-        {/* Features Grid */}
-        <Text style={{ 
-          fontSize: 20, 
-          fontWeight: 'bold', 
-          color: '#1F2937', 
-          marginBottom: 16 
-        }}>
-          Volunteer Tools
-        </Text>
-
-        <View style={{ 
-          flexDirection: 'row', 
-          flexWrap: 'wrap', 
-          justifyContent: 'space-between' 
-        }}>
-          {volunteerFeatures.map((feature, index) => (
-            <TouchableOpacity
-              key={feature.id}
-              onPress={() => handleFeaturePress(feature.title)}
+        {/* Volunteer Tools */}
+        <View className="px-6 py-2">
+          <View className="mb-5 flex-row items-center">
+            <View 
+              className="mr-3 rounded-full bg-gray-600 p-2.5"
               style={{
-                width: '48%',
-                backgroundColor: 'white',
-                borderRadius: 16,
-                padding: 16,
-                marginBottom: 16,
                 shadowColor: '#000',
                 shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 8,
-                elevation: 3
-              }}
-              activeOpacity={0.8}
-            >
-              <View style={{
-                width: 48,
-                height: 48,
-                backgroundColor: feature.bgColor,
-                borderRadius: 12,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: 12
+                shadowOpacity: 0.15,
+                shadowRadius: 4,
+                elevation: 3,
               }}>
-                <FontAwesome6 name={feature.icon} size={20} color={feature.color} />
-              </View>
-              
-              <Text style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: '#1F2937',
-                marginBottom: 4,
-                lineHeight: 20
-              }}>
-                {feature.title}
-              </Text>
-              
-              <Text style={{
-                fontSize: 12,
-                color: '#6B7280',
-                lineHeight: 16
-              }}>
-                {feature.description}
-              </Text>
-            </TouchableOpacity>
-          ))}
+              <FontAwesome6 name="tools" size={16} color="white" />
+            </View>
+            <Text className="text-xl font-extrabold text-gray-900">Volunteer Tools</Text>
+          </View>
+          <View className="flex-row flex-wrap justify-between">
+            {volunteerFeatures.map((feature, index) => (
+              <TouchableOpacity
+                key={feature.id}
+                className="mb-4 w-[48%] rounded-2xl border border-gray-100 bg-white p-5"
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 8,
+                  elevation: 4,
+                }}
+                activeOpacity={0.8}>
+                <View
+                  className="mb-4 h-14 w-14 items-center justify-center rounded-2xl"
+                  style={{ 
+                    backgroundColor: feature.bgColor,
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.15,
+                    shadowRadius: 6,
+                    elevation: 4,
+                  }}>
+                  <FontAwesome6 name={feature.icon} size={22} color={feature.color} />
+                </View>
+                <Text className="mb-3 text-base font-extrabold text-gray-900">{feature.title}</Text>
+                <Text className="text-sm font-semibold leading-5 text-gray-700">
+                  {feature.description}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
 
         {/* Recent Activity */}
-        <View style={{
-          backgroundColor: 'white',
-          borderRadius: 16,
-          padding: 20,
-          marginTop: 8,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 8,
-          elevation: 3
-        }}>
-          <Text style={{
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: '#1F2937',
-            marginBottom: 16
-          }}>
-            Recent Activity
-          </Text>
-
-          {[
-            { 
-              action: 'Emergency call resolved', 
-              time: '2 minutes ago', 
-              icon: 'check-circle', 
-              color: '#059669' 
-            },
-            { 
-              action: 'Cleanliness report assigned', 
-              time: '15 minutes ago', 
-              icon: 'arrow-right', 
-              color: '#2563EB' 
-            },
-            { 
-              action: 'Team coordination meeting', 
-              time: '1 hour ago', 
-              icon: 'users', 
-              color: '#7C2D12' 
-            }
-          ].map((activity, index) => (
+        <View className="px-6 py-2 pb-8">
+          <View className="mb-5 flex-row items-center">
             <View 
-              key={index}
+              className="mr-3 rounded-full bg-gray-600 p-2.5"
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingVertical: 12,
-                borderBottomWidth: index < 2 ? 1 : 0,
-                borderBottomColor: '#F3F4F6'
-              }}
-            >
-              <View style={{
-                width: 32,
-                height: 32,
-                backgroundColor: `${activity.color}20`,
-                borderRadius: 16,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 12
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.15,
+                shadowRadius: 4,
+                elevation: 3,
               }}>
-                <FontAwesome6 name={activity.icon} size={14} color={activity.color} />
-              </View>
-              
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 14, fontWeight: '500', color: '#1F2937' }}>
-                  {activity.action}
-                </Text>
-                <Text style={{ fontSize: 12, color: '#6B7280', marginTop: 2 }}>
-                  {activity.time}
-                </Text>
-              </View>
+              <FontAwesome6 name="clock-rotate-left" size={16} color="white" />
             </View>
-          ))}
+            <Text className="text-xl font-extrabold text-gray-900">Recent Activity</Text>
+          </View>
+          <View 
+            className="rounded-2xl border border-gray-100 bg-white p-6"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 8,
+              elevation: 4,
+            }}>
+            {recentActivities.map((activity, index) => (
+              <View key={activity.id}>
+                <View className="flex-row items-center py-4">
+                  <View
+                    className="mr-4 h-12 w-12 items-center justify-center rounded-full"
+                    style={{ 
+                      backgroundColor: `${activity.color}20`,
+                      shadowColor: '#000',
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 4,
+                      elevation: 2,
+                    }}>
+                    <FontAwesome6 name={activity.icon} size={18} color={activity.color} />
+                  </View>
+                  <View className="flex-1">
+                    <Text className="text-base font-bold text-gray-900">{activity.title}</Text>
+                    <Text className="mt-1 text-sm font-semibold text-gray-600">
+                      {activity.time}
+                    </Text>
+                  </View>
+                  <View 
+                    className="rounded-full bg-gray-100 p-2"
+                    style={{
+                      shadowColor: '#000',
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 3,
+                      elevation: 2,
+                    }}>
+                    <FontAwesome6 name="chevron-right" size={14} color="#6B7280" />
+                  </View>
+                </View>
+                {index < recentActivities.length - 1 && <View className="ml-16 h-px bg-gray-200" />}
+              </View>
+            ))}
+          </View>
         </View>
 
-        {/* Info Section */}
-        <View style={{
-          backgroundColor: '#EFF6FF',
-          borderRadius: 12,
-          padding: 16,
-          marginTop: 24,
-          borderWidth: 1,
-          borderColor: '#DBEAFE'
-        }}>
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-            <FontAwesome6 name="info-circle" size={16} color="#2563EB" />
-            <Text style={{
-              color: '#1E40AF',
-              fontSize: 14,
-              marginLeft: 12,
-              lineHeight: 20,
-              flex: 1
+        {/* Developer Mode Section - Remove in production */}
+        <View className="px-6 pb-8">
+          <View 
+            className="rounded-2xl border-2 border-orange-200 bg-orange-50 p-5"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 8,
+              elevation: 4,
             }}>
-              This is the volunteer dashboard. All features are currently in development and will be connected to the backend admin panel.
+            <View className="mb-4 flex-row items-center">
+              <View 
+                className="mr-3 rounded-full bg-orange-600 p-2.5"
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 4,
+                  elevation: 3,
+                }}>
+                <FontAwesome6 name="code" size={16} color="white" />
+              </View>
+              <Text className="text-lg font-bold text-orange-800">Developer Mode</Text>
+            </View>
+
+            <TouchableOpacity
+              onPress={clearAllUserData}
+              className="rounded-lg bg-red-500 p-3"
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.15,
+                shadowRadius: 6,
+                elevation: 4,
+              }}
+              activeOpacity={0.8}>
+              <View className="flex-row items-center justify-center">
+                <FontAwesome6 name="trash" size={16} color="white" />
+                <Text className="ml-2 font-medium text-white">
+                  Clear ALL Data & Return to Login
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <Text className="mt-3 text-xs text-orange-700">
+              This button is for development only and will be removed in production.
             </Text>
           </View>
         </View>

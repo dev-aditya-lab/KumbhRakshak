@@ -17,7 +17,7 @@ config.transformer.minifierConfig = {
 
 config.resolver.platforms = ['native', 'android', 'ios'];
 
-module.exports = withNativeWind(config, { 
+module.exports = withNativeWind(config, {
   input: './global.css',
   configPath: './tailwind.config.js',
 });

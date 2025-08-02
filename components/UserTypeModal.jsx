@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  TouchableOpacity,
-  Animated
-} from 'react-native';
+import { Modal, View, Text, TouchableOpacity, Animated } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import '../global.css';
@@ -35,27 +29,20 @@ export default function UserTypeModal({ visible, onSelectUserType }) {
   };
 
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={visible}
-    >
+    <Modal animationType="fade" transparent={true} visible={visible}>
       <View className="flex-1 bg-black/70">
-        <Animated.View 
-          style={{ opacity: fadeAnim }}
-          className="flex-1 justify-center px-6"
-        >
-          <View className="bg-white rounded-3xl overflow-hidden shadow-strong">
+        <Animated.View style={{ opacity: fadeAnim }} className="flex-1 justify-center px-6">
+          <View className="overflow-hidden rounded-3xl bg-gray-50">
             {/* Header */}
-            <View className="bg-gradient-to-r from-kumbhblue-600 to-kumbhblue-700 px-6 py-8">
+            <View className="bg-blue-600 px-6 py-8">
               <View className="items-center">
-                <View className="w-20 h-20 bg-white/20 rounded-full items-center justify-center mb-4">
+                <View className="mb-4 h-20 w-20 items-center justify-center rounded-full bg-white/20">
                   <FontAwesome6 name="users" size={32} color="white" />
                 </View>
-                <Text className="text-3xl font-bold text-white text-center">
+                <Text className="text-center text-3xl font-bold text-white">
                   {t('userType.welcome')}
                 </Text>
-                <Text className="text-white/90 text-center mt-2 text-lg">
+                <Text className="mt-2 text-center text-lg text-white/90">
                   {t('userType.subtitle')}
                 </Text>
               </View>
@@ -66,30 +53,29 @@ export default function UserTypeModal({ visible, onSelectUserType }) {
               {/* User Option */}
               <TouchableOpacity
                 onPress={() => handleUserTypeSelect('user')}
-                className="bg-gradient-to-r from-kumbhblue-50 to-kumbhblue-100 rounded-2xl p-6 mb-4 border-2 border-kumbhblue-200 shadow-medium"
-                activeOpacity={0.8}
-              >
+                className="mb-4 rounded-2xl border-2 border-blue-200 bg-blue-50 p-6"
+                activeOpacity={0.8}>
                 <View className="flex-row items-center">
-                  <View className="w-16 h-16 bg-kumbhblue-600 rounded-xl items-center justify-center">
+                  <View className="h-16 w-16 items-center justify-center rounded-xl bg-blue-600">
                     <FontAwesome6 name="user" size={24} color="white" />
                   </View>
-                  
-                  <View className="flex-1 ml-4">
+
+                  <View className="ml-4 flex-1">
                     <Text className="text-2xl font-bold text-gray-800">
                       {t('userType.user.title')}
                     </Text>
-                    <Text className="text-gray-600 text-base mt-1 leading-relaxed">
+                    <Text className="mt-1 text-base leading-relaxed text-gray-600">
                       {t('userType.user.description')}
                     </Text>
                   </View>
-                  
+
                   <FontAwesome6 name="chevron-right" size={20} color="#204B72" />
                 </View>
 
-                <View className="mt-4 pt-4 border-t border-kumbhblue-200">
+                <View className="mt-4 border-t border-kumbhblue-200 pt-4">
                   <View className="flex-row items-center">
                     <FontAwesome6 name="check-circle" size={16} color="#10B981" />
-                    <Text className="text-kumbhgreen-600 font-medium ml-2">
+                    <Text className="ml-2 font-medium text-kumbhgreen-600">
                       {t('userType.user.benefit')}
                     </Text>
                   </View>
@@ -99,30 +85,29 @@ export default function UserTypeModal({ visible, onSelectUserType }) {
               {/* Volunteer Option */}
               <TouchableOpacity
                 onPress={() => handleUserTypeSelect('volunteer')}
-                className="bg-gradient-to-r from-kumbhgold-50 to-kumbhgold-100 rounded-2xl p-6 border-2 border-kumbhgold-200 shadow-medium"
-                activeOpacity={0.8}
-              >
+                className="rounded-2xl border-2 border-orange-200 bg-orange-50 p-6"
+                activeOpacity={0.8}>
                 <View className="flex-row items-center">
-                  <View className="w-16 h-16 bg-kumbhgold-600 rounded-xl items-center justify-center">
+                  <View className="h-16 w-16 items-center justify-center rounded-xl bg-orange-600">
                     <FontAwesome6 name="hands-helping" size={24} color="white" />
                   </View>
-                  
-                  <View className="flex-1 ml-4">
+
+                  <View className="ml-4 flex-1">
                     <Text className="text-2xl font-bold text-gray-800">
                       {t('userType.volunteer.title')}
                     </Text>
-                    <Text className="text-gray-600 text-base mt-1 leading-relaxed">
+                    <Text className="mt-1 text-base leading-relaxed text-gray-600">
                       {t('userType.volunteer.description')}
                     </Text>
                   </View>
-                  
+
                   <FontAwesome6 name="chevron-right" size={20} color="#D97706" />
                 </View>
 
-                <View className="mt-4 pt-4 border-t border-kumbhgold-200">
+                <View className="mt-4 border-t border-kumbhgold-200 pt-4">
                   <View className="flex-row items-center">
                     <FontAwesome6 name="shield-halved" size={16} color="#DC2626" />
-                    <Text className="text-red-600 font-medium ml-2">
+                    <Text className="ml-2 font-medium text-red-600">
                       {t('userType.volunteer.requirement')}
                     </Text>
                   </View>
@@ -130,10 +115,10 @@ export default function UserTypeModal({ visible, onSelectUserType }) {
               </TouchableOpacity>
 
               {/* Info Section */}
-              <View className="bg-gray-50 rounded-xl p-4 mt-4">
+              <View className="mt-4 rounded-xl bg-gray-50 p-4">
                 <View className="flex-row items-start">
                   <FontAwesome6 name="info-circle" size={16} color="#6B7280" />
-                  <Text className="text-gray-600 text-sm ml-3 leading-relaxed flex-1">
+                  <Text className="ml-3 flex-1 text-sm leading-relaxed text-gray-600">
                     {t('userType.info')}
                   </Text>
                 </View>

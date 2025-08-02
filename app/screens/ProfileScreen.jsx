@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
@@ -24,142 +24,486 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = () => {
-    Alert.alert(
-      'Clear Data',
-      'This will clear all your stored data. Are you sure?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Clear', 
-          style: 'destructive',
-          onPress: async () => {
-            await UserStorage.clearUserData();
-            Alert.alert('Success', 'Data cleared successfully. Restart the app to register again.');
-          }
-        }
-      ]
-    );
+    Alert.alert('Clear Data', 'This will clear all your stored data. Are you sure?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Clear',
+        style: 'destructive',
+        onPress: async () => {
+          await UserStorage.clearUserData();
+          Alert.alert('Success', 'Data cleared successfully. Restart the app to register again.');
+        },
+      },
+    ]);
   };
 
   const profileOptions = [
-    { icon: 'user-pen', title: 'Edit Profile', subtitle: 'Update your personal information', action: () => {} },
-    { icon: 'bell', title: 'Notifications', subtitle: 'Manage your notification preferences', action: () => {} },
-    { icon: 'shield-halved', title: 'Privacy & Security', subtitle: 'Manage your privacy settings', action: () => {} },
-    { icon: 'headset', title: 'Help & Support', subtitle: 'Get help and contact support', action: () => {} },
-    { icon: 'cog', title: 'Settings', subtitle: 'App preferences and configurations', action: () => navigation.navigate('Settings') },
+    {
+      icon: 'user-pen',
+      title: 'Edit Profile',
+      subtitle: 'Update your personal information',
+      action: () => {},
+    },
+    {
+      icon: 'bell',
+      title: 'Notifications',
+      subtitle: 'Manage your notification preferences',
+      action: () => {},
+    },
+    {
+      icon: 'shield-halved',
+      title: 'Privacy & Security',
+      subtitle: 'Manage your privacy settings',
+      action: () => {},
+    },
+    {
+      icon: 'headset',
+      title: 'Help & Support',
+      subtitle: 'Get help and contact support',
+      action: () => {},
+    },
+    {
+      icon: 'cog',
+      title: 'Settings',
+      subtitle: 'App preferences and configurations',
+      action: () => navigation.navigate('Settings'),
+    },
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Status bar background replacement */}
-      <View className="bg-gray-50 h-0" />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }}>
+      <StatusBar barStyle="light-content" backgroundColor="#EA580C" />
       
       {/* Header */}
-      <View className="bg-white border-b border-gray-200 px-6 py-4">
-        <Text className="text-3xl font-bold text-gray-800">Profile</Text>
-        <Text className="text-gray-600 mt-1">Manage your account and preferences</Text>
+      <View style={{
+        backgroundColor: '#EA580C',
+        paddingHorizontal: 24,
+        paddingVertical: 32,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 12,
+        elevation: 8,
+      }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{
+            marginRight: 16,
+            borderRadius: 16,
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            padding: 16,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 8,
+            elevation: 4,
+          }}>
+            <FontAwesome6 name="user-circle" size={28} color="white" />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={{
+              fontSize: 32,
+              fontWeight: '900',
+              color: 'white',
+              marginBottom: 4,
+              textShadowColor: 'rgba(0, 0, 0, 0.3)',
+              textShadowOffset: { width: 0, height: 1 },
+              textShadowRadius: 2,
+            }}>
+              Profile
+            </Text>
+            <Text style={{
+              fontSize: 16,
+              fontWeight: '600',
+              color: '#FED7AA',
+              textShadowColor: 'rgba(0, 0, 0, 0.2)',
+              textShadowOffset: { width: 0, height: 1 },
+              textShadowRadius: 1,
+            }}>
+              Manage your account & preferences
+            </Text>
+          </View>
+        </View>
       </View>
 
-      <ScrollView className="flex-1">
+      <ScrollView 
+        style={{ flex: 1, backgroundColor: '#F8FAFC' }} 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 24, paddingVertical: 24, paddingBottom: 32 }}
+      >
         {/* User Info Card */}
-        <View className="mx-6 mt-6 bg-white rounded-2xl p-6 border border-gray-200 shadow-soft">
-          <View className="items-center">
+        <View style={{
+          marginBottom: 32,
+          borderRadius: 16,
+          backgroundColor: 'white',
+          padding: 32,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.1,
+          shadowRadius: 12,
+          elevation: 6,
+        }}>
+          <View style={{ alignItems: 'center' }}>
             {/* Avatar */}
-            <View className="w-24 h-24 bg-kumbhblue-600 rounded-full items-center justify-center mb-4 shadow-medium">
-              <FontAwesome6 name="user" size={36} color="white" />
+            <View style={{
+              marginBottom: 24,
+              height: 128,
+              width: 128,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 64,
+              borderWidth: 4,
+              borderColor: '#FED7AA',
+              backgroundColor: '#EA580C',
+              shadowColor: '#EA580C',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 12,
+              elevation: 8,
+            }}>
+              <FontAwesome6 name="user" size={42} color="white" />
             </View>
-            
+
             {/* User Details */}
             {userData ? (
-              <View className="items-center">
-                <Text className="text-2xl font-bold text-gray-800">{userData.name}</Text>
-                <Text className="text-lg text-gray-600 mt-1">{userData.phone}</Text>
-                <View className="bg-kumbhgreen-100 px-3 py-1 rounded-full mt-3">
-                  <Text className="text-kumbhgreen-700 text-sm font-medium">Verified User</Text>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{
+                  marginBottom: 8,
+                  fontSize: 32,
+                  fontWeight: '900',
+                  color: '#111827',
+                }}>
+                  {userData.name}
+                </Text>
+                <Text style={{
+                  fontSize: 18,
+                  fontWeight: '600',
+                  color: '#6B7280',
+                  marginBottom: 16,
+                }}>
+                  {userData.phone}
+                </Text>
+                <View style={{
+                  borderRadius: 24,
+                  backgroundColor: '#10B981',
+                  paddingHorizontal: 24,
+                  paddingVertical: 12,
+                  shadowColor: '#10B981',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 6,
+                  elevation: 4,
+                }}>
+                  <Text style={{
+                    fontSize: 14,
+                    fontWeight: '700',
+                    color: 'white',
+                  }}>
+                    ✓ Verified User
+                  </Text>
                 </View>
               </View>
             ) : (
-              <View className="items-center">
-                <Text className="text-xl text-gray-500">Loading...</Text>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{
+                  fontSize: 20,
+                  fontWeight: '600',
+                  color: '#9CA3AF',
+                }}>
+                  Loading...
+                </Text>
               </View>
             )}
           </View>
-          
+
           {/* Stats Row */}
-          <View className="flex-row justify-around mt-6 pt-6 border-t border-gray-200">
-            <View className="items-center">
-              <Text className="text-2xl font-bold text-kumbhblue-600">0</Text>
-              <Text className="text-gray-600 text-sm">Reports</Text>
+          <View style={{
+            marginTop: 32,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            borderTopWidth: 1,
+            borderTopColor: '#F3F4F6',
+            paddingTop: 24,
+          }}>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{
+                fontSize: 32,
+                fontWeight: '900',
+                color: '#3B82F6',
+                marginBottom: 4,
+              }}>
+                0
+              </Text>
+              <Text style={{
+                fontSize: 14,
+                fontWeight: '700',
+                color: '#6B7280',
+              }}>
+                Requests
+              </Text>
             </View>
-            <View className="items-center">
-              <Text className="text-2xl font-bold text-kumbhgreen-600">5</Text>
-              <Text className="text-gray-600 text-sm">Points</Text>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{
+                fontSize: 32,
+                fontWeight: '900',
+                color: '#10B981',
+                marginBottom: 4,
+              }}>
+                3
+              </Text>
+              <Text style={{
+                fontSize: 14,
+                fontWeight: '700',
+                color: '#6B7280',
+              }}>
+                Reports
+              </Text>
             </View>
-            <View className="items-center">
-              <Text className="text-2xl font-bold text-kumbhgold-600">New</Text>
-              <Text className="text-gray-600 text-sm">Member</Text>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{
+                fontSize: 32,
+                fontWeight: '900',
+                color: '#7C3AED',
+                marginBottom: 4,
+              }}>
+                5
+              </Text>
+              <Text style={{
+                fontSize: 14,
+                fontWeight: '700',
+                color: '#6B7280',
+              }}>
+                Points
+              </Text>
+            </View>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{
+                fontSize: 20,
+                fontWeight: '900',
+                color: '#EA580C',
+                marginBottom: 4,
+              }}>
+                New
+              </Text>
+              <Text style={{
+                fontSize: 14,
+                fontWeight: '700',
+                color: '#6B7280',
+              }}>
+                Member
+              </Text>
             </View>
           </View>
         </View>
 
         {/* Profile Options */}
-        <View className="mx-6 mt-6">
-          <Text className="text-xl font-bold text-gray-800 mb-4">Account Options</Text>
-          
-          <View className="space-y-3">
+        <View style={{ marginBottom: 32 }}>
+          <Text style={{
+            marginBottom: 24,
+            fontSize: 24,
+            fontWeight: '900',
+            color: '#111827',
+          }}>
+            Account Options
+          </Text>
+
+          <View style={{
+            borderRadius: 16,
+            backgroundColor: 'white',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 3,
+          }}>
             {profileOptions.map((option, index) => (
-              <TouchableOpacity 
-                key={index}
-                onPress={option.action}
-                className="bg-white rounded-2xl p-4 border border-gray-200 shadow-soft"
-                activeOpacity={0.8}
-              >
-                <View className="flex-row items-center">
-                  <View className="w-12 h-12 bg-kumbhblue-50 rounded-xl items-center justify-center">
-                    <FontAwesome6 name={option.icon} size={20} color="#204B72" />
+              <View key={index}>
+                <TouchableOpacity 
+                  onPress={option.action} 
+                  style={{ padding: 20 }} 
+                  activeOpacity={0.7}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{
+                      marginRight: 16,
+                      height: 48,
+                      width: 48,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 16,
+                      backgroundColor: '#F3F4F6',
+                      shadowColor: '#000',
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 3,
+                      elevation: 2,
+                    }}>
+                      <FontAwesome6 name={option.icon} size={20} color="#4B5563" />
+                    </View>
+
+                    <View style={{ flex: 1 }}>
+                      <Text style={{
+                        marginBottom: 4,
+                        fontSize: 18,
+                        fontWeight: '900',
+                        color: '#111827',
+                      }}>
+                        {option.title}
+                      </Text>
+                      <Text style={{
+                        fontSize: 14,
+                        fontWeight: '600',
+                        color: '#6B7280',
+                      }}>
+                        {option.subtitle}
+                      </Text>
+                    </View>
+
+                    <View style={{
+                      borderRadius: 24,
+                      backgroundColor: '#F3F4F6',
+                      padding: 12,
+                      shadowColor: '#000',
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.05,
+                      shadowRadius: 2,
+                      elevation: 1,
+                    }}>
+                      <FontAwesome6 name="chevron-right" size={16} color="#6B7280" />
+                    </View>
                   </View>
-                  
-                  <View className="flex-1 ml-4">
-                    <Text className="text-lg font-semibold text-gray-800">{option.title}</Text>
-                    <Text className="text-gray-600 text-sm mt-1">{option.subtitle}</Text>
-                  </View>
-                  
-                  <FontAwesome6 name="chevron-right" size={16} color="#9CA3AF" />
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
+                {index < profileOptions.length - 1 && (
+                  <View style={{
+                    marginLeft: 80,
+                    height: 1,
+                    backgroundColor: '#F3F4F6',
+                  }} />
+                )}
+              </View>
             ))}
           </View>
         </View>
 
         {/* App Info */}
-        <View className="mx-6 mt-6 mb-6">
-          <View className="bg-white rounded-2xl p-6 border border-gray-200 shadow-soft">
-            <Text className="text-lg font-bold text-gray-800 mb-4">App Information</Text>
-            
-            <View className="space-y-3">
-              <View className="flex-row justify-between">
-                <Text className="text-gray-600">Version</Text>
-                <Text className="text-gray-800 font-medium">1.0.0</Text>
+        <View style={{ marginBottom: 24 }}>
+          <View style={{
+            borderRadius: 16,
+            backgroundColor: 'white',
+            padding: 24,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 8,
+            elevation: 3,
+          }}>
+            <Text style={{
+              marginBottom: 24,
+              fontSize: 20,
+              fontWeight: '900',
+              color: '#111827',
+            }}>
+              App Information
+            </Text>
+
+            <View style={{ gap: 20 }}>
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: '#6B7280',
+                }}>
+                  Version
+                </Text>
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '900',
+                  color: '#111827',
+                }}>
+                  1.0.0
+                </Text>
               </View>
-              <View className="flex-row justify-between">
-                <Text className="text-gray-600">Last Updated</Text>
-                <Text className="text-gray-800 font-medium">July 2025</Text>
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: '#6B7280',
+                }}>
+                  Last Updated
+                </Text>
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '900',
+                  color: '#111827',
+                }}>
+                  August 2025
+                </Text>
               </View>
-              <View className="flex-row justify-between">
-                <Text className="text-gray-600">Build</Text>
-                <Text className="text-gray-800 font-medium">1.0.0 (1)</Text>
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: '#6B7280',
+                }}>
+                  Build
+                </Text>
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '900',
+                  color: '#111827',
+                }}>
+                  1.0.0 (1)
+                </Text>
               </View>
             </View>
 
             {/* Debug Clear Data Button */}
             {__DEV__ && (
-              <TouchableOpacity 
+              <TouchableOpacity
                 onPress={handleLogout}
-                className="mt-6 pt-4 border-t border-gray-200"
+                style={{
+                  marginTop: 24,
+                  borderTopWidth: 1,
+                  borderTopColor: '#F3F4F6',
+                  paddingTop: 16,
+                }}
               >
-                <View className="flex-row items-center justify-center">
-                  <FontAwesome6 name="trash" size={16} color="#DC2626" />
-                  <Text className="text-red-600 font-medium ml-2">Clear All Data (Debug)</Text>
+                <View style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 12,
+                  backgroundColor: '#FEF2F2',
+                  borderWidth: 1,
+                  borderColor: '#FECACA',
+                  paddingVertical: 16,
+                  paddingHorizontal: 16,
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.05,
+                  shadowRadius: 2,
+                  elevation: 1,
+                }}>
+                  <FontAwesome6 name="trash" size={18} color="#DC2626" />
+                  <Text style={{
+                    marginLeft: 12,
+                    fontSize: 16,
+                    fontWeight: '700',
+                    color: '#DC2626',
+                  }}>
+                    Clear All Data (Debug)
+                  </Text>
                 </View>
               </TouchableOpacity>
             )}

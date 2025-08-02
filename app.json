@@ -18,10 +18,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "assets/KR_logo.png",
-      "assets/KumbhRakshak.png"
-    ],
+    "assetBundlePatterns": ["assets/KR_logo.png", "assets/KumbhRakshak.png"],
     "ios": {
       "supportsTablet": true
     },

@@ -17,7 +17,7 @@
       "desc": "Talk to an officer for urgent help"
     },
     "cleanliness": {
-      "title": "Report Cleanliness Issue", 
+      "title": "Report Cleanliness Issue",
       "desc": "Spotted a dirty area? Report with photo."
     },
     "services": {
@@ -34,17 +34,23 @@
     "current": "English"
   },
   "registration": {
-    "welcome": "Welcome to Kumbh Rakshak!",
-    "subtitle": "Help us serve you better by providing your details",
-    "name_label": "Your Name",
+    "welcome": "Welcome to KumbhRakshak",
+    "subtitle": "Join our community to access safety and hygiene services",
+    "name_label": "Full Name",
     "name_placeholder": "Enter your full name",
     "phone_label": "Phone Number",
     "phone_placeholder": "Enter your 10-digit phone number",
-    "privacy_text": "Your information is safe with us and will only be used for emergency contact and service tracking.",
-    "submit_button": "Get Started",
     "required_field": "This field is required",
     "invalid_phone": "Please enter a valid 10-digit phone number",
-    "registration_success": "Registration completed successfully!"
+    "privacy_text": "Your information is secure and will only be used for emergency services and notifications during the event.",
+    "submit_button": "Complete Registration",
+    "registration_success": "Registration Successful!",
+    "server_sync_success": "Your data has been saved to our servers successfully.",
+    "offline_mode": "Registration completed offline. Data will sync when server is available.",
+    "partial_success": "Registration Completed",
+    "server_sync_failed": "Local registration successful. Data will sync automatically when server is available.",
+    "error": "Registration Error",
+    "registration_failed": "Registration failed. Please try again."
   },
   "userType": {
     "welcome": "Welcome to Kumbh Rakshak",
